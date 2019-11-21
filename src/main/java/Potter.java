@@ -35,51 +35,68 @@ public class Potter {
         
         int lesserOccurence = getLesserOccurence(books);
         System.out.println(lesserOccurence);
-        int bookInSet = getBookSet(lesserOccurence);
-        System.out.println("setOfBook="+bookInSet);
-        return calculFinalPrice(books, bookInSet);
+        ArrayList<Integer> bookSet = getBookSet(lesserOccurence);
+        System.out.println("setOfBook="+bookSet.toString());
+        return calculFinalPrice(books, bookSet);
     }
 
-	private double calculFinalPrice(List<Integer> books, int bookInSet) {
+	private double calculFinalPrice(List<Integer> books, ArrayList<Integer> bookSet) {
 		double finalReduction =0;
-        if(bookInSet > 0)
-        	finalReduction = reduction[bookInSet - 2];
-        double finalPrice = finalReduction + (books.size() - bookInSet) * 8;
+		double finalPrice =0;
+        if(bookSet.size() > 1) {
+        	finalReduction = reduction[bookSet.size() - 2];
+        	finalPrice = finalReduction + (books.size() - bookSet.size()) * 8;
+        } 
+        else {
+        	finalPrice = books.size() * 8;        	
+        }
 		return finalPrice;
 	}
 
-	private int getBookSet(int lesserOccurence) {
-		int bookInSet = 0;
+	private ArrayList<Integer> getBookSet(int lesserOccurence) {
+//		ArrayList<BookSet> bookSets = new ArrayList<>();
+		ArrayList<Integer> bookSet = new ArrayList<>();
+		ArrayList<Boolean> isBookNumberAlreadyInSet = new ArrayList<>();
+		System.out.println(occurences.toString());
+		
+		for (int i = 0; i < BOOK_NUMBERS.length; i++) {
+			isBookNumberAlreadyInSet.add(false);
+		}		
+		
         for (int i = 0; i < lesserOccurence; i++) {
-        	bookInSet = 0;
-			if(occurences.get(0) >= i + 1) {
+			if(occurences.get(0) >= i + 1 && !isBookNumberAlreadyInSet.get(0)) {
 				occurences.set(0, occurences.get(0) - 1);
-				bookInSet++;
+				bookSet.add(occurences.get(0));
+				isBookNumberAlreadyInSet.set(0, true);
 			}
-			if(occurences.get(1) >= i + 1) {
+			if(occurences.get(1) >= i + 1  && !isBookNumberAlreadyInSet.get(1)) {
 				occurences.set(1, occurences.get(1) - 1);
-				bookInSet++;		
+				bookSet.add(occurences.get(1));
+				isBookNumberAlreadyInSet.set(1, true);
 			}
-			if(occurences.get(2) >= i + 1) {
+			if(occurences.get(2) >= i + 1  && !isBookNumberAlreadyInSet.get(2)) {
 				occurences.set(2, occurences.get(2) - 1);
-				bookInSet++;
+				bookSet.add(occurences.get(2));
+				isBookNumberAlreadyInSet.set(2, true);
 			}
-			if(occurences.get(3) >= i + 1) {
+			if(occurences.get(3) >= i + 1  && !isBookNumberAlreadyInSet.get(3)) {
 				occurences.set(3, occurences.get(3) - 1);
-				bookInSet++;
+				bookSet.add(occurences.get(3));
+				isBookNumberAlreadyInSet.set(3, true);
 			}
-			if(occurences.get(4) >= i + 1) {
+			if(occurences.get(4) >= i + 1  && !isBookNumberAlreadyInSet.get(4)) {
 				occurences.set(4, occurences.get(4) - 1);
-				bookInSet++;
+				bookSet.add(occurences.get(4));
+				isBookNumberAlreadyInSet.set(4, true);
 			}
 		}
-		return bookInSet;
+		return bookSet;
 	}
 
 	private int getLesserOccurence(List<Integer> books) {
 		int lesserOccurence = books.size();
         for (Integer occurence: occurences) {
-        	if(occurence != 0)
+        	if(occurence != 0)	
         		lesserOccurence = occurence < lesserOccurence ? occurence : lesserOccurence;
 		}
         return lesserOccurence;
