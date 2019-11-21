@@ -62,7 +62,7 @@ public class Potter {
 		double finalReduction =0;
 		double finalPrice =0;
 		for (ArrayList<Integer> bookSet : bookSets) {
-			if(bookSets.size() > 1) {
+			if(bookSet.size() > 1) {
 				finalReduction += reduction[bookSet.size() - 2];
 				finalPrice += finalReduction + (books.size() - bookSet.size()) * 8;
 			} 
