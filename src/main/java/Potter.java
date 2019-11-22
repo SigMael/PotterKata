@@ -33,11 +33,13 @@ public class Potter {
 
         readOccurences(books);
         
-        int lesserOccurence = getLesserOccurence(books);
-        System.out.println(lesserOccurence);
+        int lesserOccurence = getLesserOccurence(books.size());
+        System.out.println("LesserOccurence="+lesserOccurence);
         ArrayList<ArrayList<Integer>> bookSets = new ArrayList<>();
         bookSets.add(getBookSet(lesserOccurence));
 		if(isThereAdditionalOccurences(books.size())) {
+			lesserOccurence = getLesserOccurence(books.size());
+			System.out.println("new LesserOccurence="+lesserOccurence);
 			bookSets.add(getBookSet(lesserOccurence));
         }
         
@@ -46,11 +48,15 @@ public class Potter {
 
 	private boolean isThereAdditionalOccurences(int bookNumbers) {
 		boolean isThereAtLeast1Occurence = false;
+		System.out.println("occurences="+occurences.toString());
 		for (int i = 1; i < bookNumbers; i++) {
+			System.out.println("i="+i);
 			if(occurences.contains(i)) {
+				System.out.println("occurences.contains(i)");
+				i--;
 				if(isThereAtLeast1Occurence) {
 					System.out.println("Additional ocurence yes");
-					return true;					
+					return true;
 				}
 				isThereAtLeast1Occurence = true;
 			}
@@ -59,17 +65,19 @@ public class Potter {
 	}
 
 	private double calculFinalPrice(List<Integer> books, ArrayList<ArrayList<Integer>>bookSets) {
-		double finalReduction =0;
 		double finalPrice =0;
+		int booksInSets = 0;
+		double finalReduction =0;
 		for (ArrayList<Integer> bookSet : bookSets) {
 			if(bookSet.size() > 1) {
 				finalReduction += reduction[bookSet.size() - 2];
-				finalPrice += finalReduction + (books.size() - bookSet.size()) * 8;
-			} 
-			else {
-				finalPrice += books.size() * 8;        	
-			}			
+				System.out.println("reduction="+finalReduction);
+				booksInSets += bookSet.size();
+			} 		
 		}
+		System.out.println("bookInSet="+booksInSets);
+		finalPrice = finalReduction + (books.size() - booksInSets) * 8;
+		System.out.println("final price ="+finalPrice);
 		return finalPrice;
 	}
 
@@ -113,8 +121,8 @@ public class Potter {
 		return bookSet;
 	}
 
-	private int getLesserOccurence(List<Integer> books) {
-		int lesserOccurence = books.size();
+	private int getLesserOccurence(int currentLesserOccurence) {
+		int lesserOccurence = currentLesserOccurence;
         for (Integer occurence: occurences) {
         	if(occurence != 0)	
         		lesserOccurence = occurence < lesserOccurence ? occurence : lesserOccurence;

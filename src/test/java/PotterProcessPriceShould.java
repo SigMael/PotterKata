@@ -58,6 +58,12 @@ public class PotterProcessPriceShould {
     
     @Test
     public void return_expected_price_when_2_sets_of_2_books_are_bought(){
-        Assert.assertEquals( (8 * 2 * 0.9)*2, potter.processPrice(new int[] {0, 1, 0, 1}), 0);
+        Assert.assertEquals( (8 * 2 * 0.95)*2, potter.processPrice(new int[] {0, 1, 0, 1}), 0);
     }
+    
+    @Test
+    public void return_expected_price_with_complex_case(){
+        Assert.assertEquals( 2 * (8 * 4 * 0.8), potter.processPrice(new int[] {0,0,1,1,2,2,3,4}), 0);
+    }
+    
 }
